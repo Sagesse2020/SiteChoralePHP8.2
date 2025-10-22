@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>{{ config('app.name')}}-Formulaire Groupe vocal</title>
+    <title>{{ config('app.name')}}-Formulaire des voix</title>
      <style>
         h1{
      color: red;
@@ -43,10 +43,10 @@
     <div class="container">
       <ul class="collapse navbar-collapse" id="navbarSupportedContent">
       <li class="nav-item">
-      <a class="nav-link @if(Request::route()->getName() == 'groupes_vocaux.create') active @endif" aria-current="page" href="{{ route('groupes_vocaux.create') }}">Enregistrer un nouveau groupe vocal</a>
+      <a class="nav-link @if(Request::route()->getName() == 'groupes_vocaux.create') active @endif" aria-current="page" href="{{ route('groupes_vocaux.create') }}">Enregistrer une nouvelle voix</a>
       </li>
        <li class="nav-item">
-       <a class="nav-link @if(Request::route()->getName() == 'groupes_vocaux.index') active @endif" aria-current="page" href="{{ route('groupes_vocaux.index') }}">Liste des groupes vocaux</a>
+       <a class="nav-link @if(Request::route()->getName() == 'groupes_vocaux.index') active @endif" aria-current="page" href="{{ route('groupes_vocaux.index') }}">Liste des voix</a>
        </li>
        <li class="nav-item">
          <a class="nav-link active" aria-current="page" href="{{ route('admin') }}">Accueil</a>

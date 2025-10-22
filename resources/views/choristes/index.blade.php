@@ -104,10 +104,8 @@
              <thead>
                 <tr>
                     <th>Id</th>
-                    <th>Nom</th>
-                    <th>Téléphone</th>
-                    <th>Email</th>
-                    <th>Groupe vocal</th>
+                    <th>Nom du choriste</th>
+                    <th>Voix du choriste</th>
                 </tr>
             </thead>
             <tbody>
@@ -115,8 +113,6 @@
                     <tr>
                         <td>{{ $Choriste->id}}</td>
                         <td>{{ $Choriste->nom}}</td>
-                        <td>{{ $Choriste->telephone}}</td>
-                        <td>{{ $Choriste->email}}</td>
                         <td>{{ $Choriste->groupe->nom }}</td>
                     </tr>
                 @endforeach

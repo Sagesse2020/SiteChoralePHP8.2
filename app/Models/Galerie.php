@@ -16,5 +16,10 @@ class Galerie extends Model
         return $this->belongsTo(evenement::class, 'evenement_id');
               // Passez les données à la vue
     }
+
+     public function images()
+    {
+        return $this->hasMany(GalerieImage::class);
+    }
 }
 

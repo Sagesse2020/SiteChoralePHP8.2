@@ -96,16 +96,16 @@
     </style>
 </head>
 <body>
-    <h1>Liste des groupes vocaux</h1>
+    <h1>Liste des voix</h1>
       @if($groupes_vocaux->isEmpty())
-        <p>Aucun groupe vocal disponible.</p>
+        <p>Aucune voix disponible.</p>
     @else
         <table border = "4px">
              <thead>
                 <tr>
                     <th>Id</th>
-                    <th>Nom du groupe vocal</th>
-                    <th>Description du groupe vocal</th>
+                    <th>Libellé voix</th>
+                    <th>Description de la voix </th>
                 </tr>
             </thead>
             <tbody>

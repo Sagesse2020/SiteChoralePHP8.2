@@ -131,26 +131,10 @@
                           <input type="text" class="form-control" id="nom" name="nom" placeholder="Nom complet du choriste" required>
             </div>
 
-            <br/>
-
-            <br/>
-
-            <div class="mb-3">
-                <label for="telephone" class="form-label">Téléphone du choriste</label>  <br>
-                <input type="text" class="form-control" id="telephone" name="telephone" placeholder="Numéro de téléphone" required>
-            </div>
-
-            <br/>
-
-            <div class="mb-3">
-                <label for="email" class="form-label">Email du choriste</label>  <br>
-                <input type="email" class="form-control" id="email" name="email" placeholder="Email du choriste" required>
-            </div>
-
                <br/>
                <div class="form-group">
                <select id="groupe_id" name="groupe_id" required>
-    <option value=""> Sélectionnez un groupe vocal </option>
+    <option value=""> Sélectionnez une voix</option>
     @foreach($groupes_vocaux as $Groupe_vocal)
         <option value="{{ $Groupe_vocal->id }}">{{ $Groupe_vocal->nom }}</option>
     @endforeach

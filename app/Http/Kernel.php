@@ -65,6 +65,7 @@ class Kernel extends HttpKernel
         'signed' => \App\Http\Middleware\ValidateSignature::class,
         'throttle' => \Illuminate\Routing\Middleware\ThrottleRequests::class,
         'verified' => \Illuminate\Auth\Middleware\EnsureEmailIsVerified::class,
+        'log.visit' => \App\Http\Middleware\LogVisit::class,
     ];
 
     protected $routeMiddleware = [
@@ -72,7 +73,6 @@ class Kernel extends HttpKernel
     'auth' => \App\Http\Middleware\Authenticate::class,
     'role' => \App\Http\Middleware\RoleMiddleware::class,
     'permission' => \App\Http\Middleware\PermissionMiddleware::class,
-    'LogVisit' => \App\Http\Middleware\LogVisit::class,
     // ...
       ];
 

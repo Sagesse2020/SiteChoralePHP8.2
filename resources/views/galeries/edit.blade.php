@@ -3,8 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Créer une galerie</title>
-
+<title>Modifier Galerie</title>
 <style>
     /* ================== Base ================== */
     body {
@@ -17,9 +16,9 @@
 
     .container {
         width: 90%;
-        max-width: 900px;
+        max-width: 800px;
         margin: 50px auto;
-        padding: 30px;
+        padding: 25px 30px;
         background: #fff;
         border-radius: 10px;
         box-shadow: 0 4px 15px rgba(0,0,0,0.1);
@@ -28,7 +27,7 @@
     h1 {
         text-align: center;
         color: #007bff;
-        margin-bottom: 40px;
+        margin-bottom: 30px;
     }
 
     /* ================== Formulaire ================== */
@@ -83,6 +82,12 @@
     }
     .btn-secondary:hover { background-color: #e0e0e0; }
 
+    .btn-delete {
+        background-color: #dc3545;
+        color: #fff;
+    }
+    .btn-delete:hover { background-color: #b02a37; }
+
     .form-buttons {
         display: flex;
         justify-content: center;
@@ -100,51 +105,64 @@
         text-align: center;
     }
 
+    /* ================== Image ================== */
+    .current-image {
+        display: block;
+        margin-top: 10px;
+        border-radius: 5px;
+        max-width: 100%;
+        height: auto;
+    }
 </style>
 </head>
-
 <body>
 
 <div class="container">
 
-    <h1>Créer une nouvelle galerie</h1>
+    <h1>Modifier la galerie</h1>
 
     @if(session('success'))
         <div class="alert-success">{{ session('success') }}</div>
     @endif
 
-    <form action="{{ route('galeries.store') }}" method="POST" enctype="multipart/form-data">
+    <form action="{{ route('galeries.update', $galerie->id) }}" method="POST">
         @csrf
+        @method('PUT')
 
-        <!-- Titre de la galerie -->
         <div class="form-group">
-            <label for="titre">Titre de la galerie</label>
-            <input type="text" id="titre" name="titre" value="{{ old('titre') }}" required>
+            <label for="titre">Titre de l'image</label>
+            <input type="text" id="titre" name="titre" value="{{ old('titre', $galerie->titre) }}" required>
         </div>
 
-        <!-- Sélection de l'événement -->
         <div class="form-group">
             <label for="evenement_id">Événement associé</label>
             <select id="evenement_id" name="evenement_id" required>
                 <option value="">Sélectionnez l'événement</option>
                 @foreach($evenements as $Evenement)
-                    <option value="{{ $Evenement->id }}">
+                    <option value="{{ $Evenement->id }}" @if($Evenement->id == $galerie->evenement_id) selected @endif>
                         {{ $Evenement->titre }} ({{ $Evenement->date ?? 'Non spécifiée' }})
                     </option>
                 @endforeach
             </select>
         </div>
 
-        <!-- Upload multiple images -->
-        <div class="form-group">
-            <label for="images">Ajouter une ou plusieurs images</label>
-            <input type="file" id="images" name="images[]" multiple required>
-        </div>
+        @if($galerie->evenement->image)
+            <div class="form-group">
+                <label>Image de l'événement :</label>
+                <img src="{{ asset('storage/'.$galerie->evenement->image) }}" alt="Image de l'événement" class="current-image">
+            </div>
+        @endif
 
-        <!-- Boutons -->
         <div class="form-buttons">
-            <button type="submit" class="btn btn-primary">Enregistrer</button>
-            <button type="reset" class="btn btn-secondary">Réinitialiser</button>
+            <button type="submit" class="btn btn-primary">Mettre à jour</button>
+        </div>
+    </form>
+
+    <form action="{{ route('galeries.destroy', $galerie->id) }}" method="POST" onsubmit="return confirm('Supprimer cette galerie ?')">
+        @csrf
+        @method('DELETE')
+        <div class="form-buttons">
+            <button type="submit" class="btn btn-delete">Supprimer</button>
         </div>
     </form>
 

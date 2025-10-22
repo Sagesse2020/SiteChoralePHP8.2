@@ -1,105 +1,103 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="fr">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Modification des publications</title>
-    <style>
-         /* Général : corps de la page */
-        body {
-            font-family: Arial, sans-serif;
-            background-color: #f4f7fa;
-            margin: 0;
-            padding: 0;
-            color: #333;
-        }
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Modifier la Publication</title>
+<style>
+    body {
+        font-family: Arial, sans-serif;
+        background-color: #f4f7fa;
+        margin: 0;
+        padding: 0;
+        color: #333;
+    }
 
-        /* Conteneur principal */
-        .container {
-            width: 80%;
-            margin: 50px auto;
-            background-color: #fff;
-            padding: 30px;
-            border-radius: 8px;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-        }
+    .container {
+        width: 80%;
+        margin: 50px auto;
+        background-color: #fff;
+        padding: 30px;
+        border-radius: 8px;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    }
 
-        /* Titre principal */
-        h1 {
-            text-align: center;
-            font-size: 2.2em;
-            margin-bottom: 20px;
-            color: #007bff;
-        }
+    h1 {
+        text-align: center;
+        font-size: 2.2em;
+        margin-bottom: 20px;
+        color: #007bff;
+    }
 
-        /* Style du message "Aucun client disponible" */
-        p {
-            text-align: center;
-            font-size: 1.2em;
-            color: #d9534f;
-        }
+    label {
+        display: block;
+        margin-top: 15px;
+        font-weight: bold;
+    }
 
-        /* Table de clients */
-        table {
-            width: 100%;
-            border-collapse: collapse;
-            margin-top: 20px;
-        }
+    input[type="text"],
+    input[type="date"],
+    textarea,
+    input[type="file"] {
+        width: 100%;
+        padding: 8px;
+        margin-top: 5px;
+        border-radius: 5px;
+        border: 1px solid #ccc;
+        font-size: 1em;
+    }
 
-        table th,
-        table td {
-            padding: 12px;
-            text-align: left;
-            border-bottom: 2px solid #ddd;
-        }
+    button {
+        background-color: #007bff;
+        color: white;
+        padding: 10px 20px;
+        margin-top: 20px;
+        border: none;
+        border-radius: 8px;
+        cursor: pointer;
+        font-size: 1em;
+        width: 150px; /* même taille pour tous les boutons */
+        text-align: center;
+        transition: background-color 0.3s, transform 0.2s;
+    }
 
-        table th {
-            background-color: #007bff;
-            color: white;
-            font-size: 1em;
-        }
+    button:hover {
+        background-color: #0056b3;
+        transform: translateY(-2px);
+    }
 
-        table td {
-            background-color: #f9f9f9;
-            font-size: 1em;
-        }
+    .btn-container {
+        display: flex;
+        gap: 10px;
+        margin-top: 20px;
+    }
 
-        table tr:nth-child(even) td {
-            background-color: #f1f1f1;
-        }
+    .btn-delete {
+        background-color: #dc3545;
+    }
 
-        /* Améliorer la visibilité des bordures lors du survol */
-        table tr:hover td {
-            background-color: #e9ecef;
-        }
+    .btn-delete:hover {
+        background-color: #b02a37;
+    }
 
-        /* Style de la pagination ou du bouton d'ajout, si nécessaire */
-        .pagination {
-            display: flex;
-            justify-content: center;
-            margin-top: 20px;
-        }
+    .error-list {
+        color: red;
+        margin-bottom: 20px;
+    }
 
-        .pagination a {
-            padding: 10px 15px;
-            margin: 0 5px;
-            background-color: #007bff;
-            color: white;
-            text-decoration: none;
-            border-radius: 5px;
-        }
-
-        .pagination a:hover {
-            background-color: #0056b3;
-        }
-    </style>
+    img {
+        margin-top: 10px;
+        border-radius: 5px;
+    }
+</style>
 </head>
 <body>
-   <h1>Modifier la Publicité</h1>
+<div class="container">
+   <div class="container">
+    <h1>Modifier la Publication</h1>
 
     @if ($errors->any())
-        <div style="color: red;">
+        <div class="error-list">
             <ul>
                 @foreach ($errors->all() as $error)
                     <li>{{ $error }}</li>
@@ -108,28 +106,37 @@
         </div>
     @endif
 
-    <form action="{{ route('publicites.update', $publicite) }}" method="POST" enctype="multipart/form-data">
+    <form action="{{ route('publications.update', $publication) }}" method="POST" enctype="multipart/form-data">
         @csrf
         @method('PUT')
 
         <label for="titre">Titre :</label>
-        <input type="text" name="titre" value="{{ old('titre', $publication->titre) }}" required><br><br>
+        <input type="text" name="titre" value="{{ old('titre', $publication->titre) }}" required>
 
         <label for="contenu">Contenu :</label>
-        <textarea name="contenu" rows="4" required>{{ old('contenu', $publication->contenu) }}</textarea><br><br>
+        <textarea name="contenu" rows="4" required>{{ old('contenu', $publication->contenu) }}</textarea>
 
-        @if($publicite->image)
-            <p>Image actuelle :</p>
-            <img src="{{ asset('storage/'.$publication->image) }}" alt="Image" width="200"><br><br>
+        @if($publication->image)
+            <label>Image actuelle :</label>
+            <img src="{{ asset('storage/'.$publication->image) }}" alt="Image" width="200">
         @endif
 
         <label for="image">Nouvelle Image (optionnelle) :</label>
-        <input type="file" name="image"><br><br>
+        <input type="file" name="image">
 
         <label for="date_publication">Date de publication :</label>
-        <input type="date" name="titre" value="{{ old('date', $publication->date) }}" required><br><br>
+        <input type="date" name="date_publication" value="{{ old('date_publication', $publication->date_publication) }}" required>
 
-        <button type="submit">Mettre à jour</button>
+        <div class="btn-container">
+            <button type="submit">Mettre à jour</button>
+
+            <form action="{{ route('publications.destroy', $publication) }}" method="POST" onsubmit="return confirm('Supprimer cette publication ?')">
+                @csrf
+                @method('DELETE')
+                <button type="submit" class="btn-delete">Supprimer</button>
+            </form>
+        </div>
     </form>
+</div>
 </body>
 </html>

@@ -16,6 +16,7 @@ class User extends Authenticatable
         'email',
         'password',
         'role',
+        'niveau_admin',
     ];
 
     protected $hidden = [
@@ -25,6 +26,7 @@ class User extends Authenticatable
 
     protected $casts = [
         'email_verified_at' => 'datetime',
+         'niveau_admin' => 'integer',
     ];
 
     /**
@@ -34,6 +36,7 @@ class User extends Authenticatable
     {
         return $this->role === $role;
     }
+
     /**
      * Vérifie si l'utilisateur a une permission spécifique (optionnel pour plus tard)
      */

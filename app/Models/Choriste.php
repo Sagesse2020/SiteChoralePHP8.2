@@ -16,12 +16,7 @@ class Choriste extends Model
               // Passez les données à la vue
     }
 
-       public function Presence()
-    {
-        return $this->hasMany(Presence::class);
-    }
-
      protected $fillable = [
-           'nom', 'telephone','email' ,'groupe_id'
+           'nom','groupe_id'
              ];
 }

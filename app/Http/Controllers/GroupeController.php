@@ -4,54 +4,51 @@ namespace App\Http\Controllers;
 
 use App\Models\Groupe_vocal;
 use Illuminate\Http\Request;
+use App\Traits\LogsVisits;
 
 class GroupeController extends Controller
 {
-     // Dans un contrôleur ou une autre partie de votre application
-  public function create() // sera appelé dans la route web.php
+    use LogsVisits;
+
+    public function create()
     {
-        // Assurez-vous que la variable est correctement définie ici
+        $this->logVisit('groupe_create');
         return view('groupes_vocaux.create');
     }
-  protected $table = 'groupes_vocaux';
- public function store(Request $request) // sera appelé dans la route web.php
+
+    public function store(Request $request)
     {
+        $this->logVisit('groupe_store');
         $request->validate([
             'nom' => 'required|string|max:255',
             'description' => 'required|string|max:255',
         ]);
 
-        // Logique pour stocker les données du formulaire dans la base de données
-        // Exemple simple :
-         Groupe_vocal::create([
-        'nom' => $request->nom,
-        'description' => $request->description,
+        Groupe_vocal::create([
+            'nom' => $request->nom,
+            'description' => $request->description,
         ]);
-        // Redirection ou message de succès
-        return redirect()->route('groupes_vocaux.store')->with('success', ' Groupe vocal enregistrées avec succès.');
+
+        return redirect()->route('groupes_vocaux.store')->with('success', 'Groupe vocal enregistré avec succès.');
     }
 
- public function index()
+    public function index()
     {
-         // Récupérer toutes les groupes vocales depuis la base de données
-        $groupes_vocaux = Groupe_vocal::all(); // Utiliser Groupe_vocal::paginate(10) pour la pagination
-
-        // Retourner la vue avec les groupes vocaux
+        $this->logVisit('groupe_index');
+        $groupes_vocaux = Groupe_vocal::all();
         return view('groupes_vocaux.index', compact('groupes_vocaux'));
     }
 
     public function rechercher(Request $request)
     {
-        // Récupérer toutes les licences, ou appliquer un filtre si la recherche est présente
-        $groupes_vocaux = groupe_vocal::query();
-        // Si la recherche est remplie, filtrer les Licences
-        if ($request->has('search') && !empty($request->search)) {
-             $groupes_vocaux =  $groupes_vocaux->where('libelle', 'like', '%' . $request->search . '%');
-        }
-        // Récupérer les résultats de la recherche avec pagination (10 clients par page)
-        $type_clients =  $groupes_vocaux->paginate(10);
+        $this->logVisit('groupe_rechercher');
+        $groupes_vocaux = Groupe_vocal::query();
 
-        // Passer les résultats à la vue
-        return view('typeClient.rechercher', compact('type_clients'));
+        if ($request->has('search') && !empty($request->search)) {
+            $groupes_vocaux = $groupes_vocaux->where('libelle', 'like', '%' . $request->search . '%');
+        }
+
+        $groupes_vocaux = $groupes_vocaux->paginate(10);
+        return view('groupes_vocaux.rechercher', compact('groupes_vocaux'));
     }
 }

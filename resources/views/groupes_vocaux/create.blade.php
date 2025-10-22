@@ -115,7 +115,7 @@
 </head>
 <body>
     <div class="container mt-5">
-       <h1>Enregistrement d'un nouveau groupe vocal</h1>
+       <h1>Enregistrement d'une voix</h1>
         @if(session('success'))
             <div class="alert alert-success">
                 {{ session('success') }}
@@ -127,14 +127,14 @@
 
             <!-- Champs pour la table Client -->
             <div class="mb-5">
-                <label for="nom" class="form-label">Nom du groupe vocal</label> <br>
-                          <input type="text" class="form-control" id="nom" name="nom" placeholder="Nom du groupe vocal" required>
+                <label for="nom" class="form-label">Libellé de la voix</label> <br>
+                          <input type="text" class="form-control" id="nom" name="nom" placeholder="Libellé de la voix" required>
             </div>
 
             <br/>
               <div class="mb-5">
-                <label for="description" class="form-label">Description du groupe vocal</label> <br>
-                          <input type="text" class="form-control" id="description" name="description" placeholder="Description du groupe vocal" required>
+                <label for="description" class="form-label">Description de la voix</label> <br>
+                          <input type="text" class="form-control" id="description" name="description" placeholder="Description de la voix" required>
             </div>
 
             <br/>

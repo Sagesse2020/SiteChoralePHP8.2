@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Galeries</title>
+<title>{{ $galerie->titre }}</title>
 
 <style>
     /* ================== Base ================== */
@@ -31,7 +31,7 @@
         margin-bottom: 40px;
     }
 
-    /* ================== Grille des galeries ================== */
+    /* ================== Grille des images ================== */
     .gallery-grid {
         display: grid;
         grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
@@ -43,9 +43,9 @@
         border-radius: 8px;
         overflow: hidden;
         box-shadow: 0 2px 10px rgba(0,0,0,0.1);
-        transition: transform 0.2s;
         display: flex;
         flex-direction: column;
+        transition: transform 0.2s;
     }
 
     .gallery-card:hover {
@@ -65,23 +65,10 @@
         text-align: center;
     }
 
-    .card-body h4 {
-        margin: 0 0 5px 0;
-        color: #333;
-        font-size: 1rem;
-    }
-
     .card-body p {
-        margin: 0;
+        margin: 5px 0;
         color: #666;
-        font-size: 0.9rem;
-    }
-
-    .empty-message {
-        text-align: center;
-        font-size: 1.2rem;
-        color: #d9534f;
-        margin-top: 50px;
+        font-size: 0.95rem;
     }
 
 </style>
@@ -91,39 +78,29 @@
 
 <div class="container">
 
-    <h1>Toutes les galeries</h1>
+    <!-- Titre de la galerie -->
+    <h1>{{ $galerie->titre }}</h1>
 
-    @if($galeries->isEmpty())
-        <p class="empty-message">Aucune galerie disponible.</p>
-    @else
-        <div class="gallery-grid">
+    <!-- Grille contenant toutes les images de la galerie -->
+    <div class="gallery-grid">
 
-            @foreach($galeries as $galerie)
-                <div class="gallery-card">
+        @foreach($galerie->images as $image)
+            <div class="gallery-card">
 
-                    <!-- Aperçu : première image de la galerie -->
-                    @if($galerie->images->first())
-                        <a href="{{ route('galeries.show', $galerie) }}">
-                            <img src="{{ asset('storage/' . $galerie->images->first()->image) }}" alt="{{ $galerie->titre }}">
-                        </a>
-                    @endif
+                <!-- Image -->
+                <img src="{{ asset('storage/' . $image->image) }}" alt="Image galerie">
 
-                    <!-- Informations sur la galerie -->
+                <!-- Description optionnelle -->
+                @if($image->description)
                     <div class="card-body">
-                        <h4>{{ $galerie->titre }}</h4>
-                        <p><strong>Date :</strong> {{ $galerie->evenement->date ?? 'Non spécifiée' }}</p>
+                        <p>{{ $image->description }}</p>
                     </div>
+                @endif
 
-                </div>
-            @endforeach
+            </div>
+        @endforeach
 
-        </div>
-
-        <!-- Pagination -->
-        <div style="margin-top:30px; text-align:center;">
-            {{ $galeries->links() }}
-        </div>
-    @endif
+    </div>
 
 </div>
 

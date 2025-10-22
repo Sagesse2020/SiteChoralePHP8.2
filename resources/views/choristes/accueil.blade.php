@@ -52,6 +52,7 @@
         </li>
         </ul>
     </div>
+    <img src="{{ asset('choriste.jpeg') }}" alt="">
 </body>
 </html>
 

@@ -68,11 +68,11 @@
 
     <main>
         <p>
-            La chorale <strong>FOI PARFAITE</strong> est née en <strong>2003</strong> avec un petit groupe de frères et sœurs passionnés par la louange. Ce ministère musical a commencé humblement lors des cultes dominicaux et des réunions de prière, puis a grandi grâce à la fidélité de Dieu et à l’engagement de ses membres.
+            La chorale <strong>FOI PARFAITE</strong> est née en <strong>2015</strong> avec un petit groupe de frères et sœurs passionnés par la louange et l'adoration. Ce ministère musical a commencé humblement lors des cultes dominicaux et des réunions de prière, puis a grandi grâce à la fidélité de Dieu et à l’engagement de ses membres.
         </p>
 
         <p>
-            Au fil des années, la chorale a participé à divers évènements tels que des concerts, la diffusion de son sigle sur des plates formes en ligne, des campagnes d’évangélisation et des mariages, portant toujours le même message :
+            Au fil des années, la chorale a participé à divers évènements tels que la réalisation et la diffusion de son single sur des plates formes en ligne et la chaine internationnale luxe tv , des campagnes d’évangélisation et des mariages, portant toujours le même message :
         </p>
 
         <blockquote>
