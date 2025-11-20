@@ -55,7 +55,7 @@
 
         /* Footer */
         .credit {
-            background: #2b4a80;
+            background: rgb(13, 74, 204);
             color: white;
             padding: 15px 20px; /* plus compact */
             border-radius: 10px;
@@ -186,9 +186,10 @@
         <section class="credit">
             <h2>Contact</h2>
             <p>
-                📧 <a href="mailto:sagesseloufoutou@gmail.com" class="email-link">
-                    sagesseloufoutou@gmail.com
-                </a>
+                📧 Gmail :
+      <a href="https://mail.google.com/mail/?view=cm&to=sagesseloufoutou@gmail.com" target="_blank">
+       sagesseloufoutou@gmail.com
+        </a>
             </p>
             <p>© {{ date('Y') }} Chorale Foi Parfaite — Tous droits réservés.</p>
         </section>

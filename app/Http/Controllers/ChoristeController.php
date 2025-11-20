@@ -68,7 +68,8 @@ class ChoristeController extends Controller
     {
         $this->logVisit('edit_choriste'); // <-- Ici
         $choristes = Choriste::findOrFail($id);
-        return view('choristes.edit', compact('choristes'));
+        $groupes = Groupe_vocal::all();
+        return view('choristes.edit', compact('choristes', 'groupes'));
     }
 
     public function update(Request $request, $id)
@@ -97,5 +98,15 @@ class ChoristeController extends Controller
         $newChoriste->save();
 
         return redirect()->route('choristes.index')->with('success', 'Choriste collé avec succès');
+    }
+
+    public function destroy($id)
+    {
+        $this->logVisit('destroy_choriste');
+
+        $choriste = Choriste::findOrFail($id);
+        $choriste->delete();
+
+        return redirect()->route('choristes.index')->with('success', 'Choriste supprimé avec succès.');
     }
 }

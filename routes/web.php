@@ -79,6 +79,9 @@ Route::prefix('password')->name('password.')->group(function () {
        // vue d'affichage de la liste des choristes
   Route::post('/createChoriste', [ChoristeController::class, 'store'])->name('choristes.store');
   Route::get('/indexChoriste', [ChoristeController::class, 'index'])->name('choristes.index');
+  Route::get('/choristes/{id}/edit', [ChoristeController::class, 'edit'])->name('choristes.edit');
+  Route::put('/choristes/{id}', [ChoristeController::class, 'update'])->name('choristes.update');
+  Route::delete('/choristes/{id}', [ChoristeController::class, 'destroy'])->name('choristes.destroy');
 
    // ------------------------
     // GALERIES

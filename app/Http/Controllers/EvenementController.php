@@ -11,11 +11,30 @@ class EvenementController extends Controller
 {
     use LogsVisits;
 
+    // Affiche tous les événements + FullCalendar
+    public function index()
+    {
+        $this->logVisit('evenement_index');
+
+        // Récupération des événements pour FullCalendar
+        $evenementsCalendar = Evenement::all()->map(function($e){
+            return [
+                'title' => $e->titre,
+                'start' => $e->date,
+                'url' => route('evenements.show', $e->id),
+            ];
+        });
+
+        // Récupération des événements pour la grille et pagination
+        $evenements = Evenement::latest()->paginate(6);
+
+        return view('evenements.index', compact('evenements', 'evenementsCalendar'));
+    }
+
     public function create()
     {
         $this->logVisit('evenement_create');
-        $evenements = Evenement::all();
-        return view('evenements.create', compact('evenements'));
+        return view('evenements.create');
     }
 
     public function store(Request $request)
@@ -31,39 +50,19 @@ class EvenementController extends Controller
             'image' => 'required|image|max:2048',
         ]);
 
+        // Détection des conflits
+        $conflict = Evenement::where('date', $validated['date'])->exists();
+        if ($conflict) {
+            return redirect()->back()->with('error', 'Un événement existe déjà à cette date.');
+        }
+
         if ($request->hasFile('image')) {
             $validated['image'] = $request->file('image')->store('images', 'public');
         }
 
         Evenement::create($validated);
+
         return redirect()->route('evenements.index')->with('success', 'Événement enregistré avec succès !');
-    }
-
-    public function index()
-    {
-        $this->logVisit('evenement_index');
-        $evenements = Evenement::latest()->paginate(6);
-        return view('evenements.index', compact('evenements'));
-    }
-
-    public function evenement()
-    {
-        $this->logVisit('evenement_page');
-        $evenements = Evenement::all();
-        return view('evenements', compact('evenements'));
-    }
-
-    public function rechercher(Request $request)
-    {
-        $this->logVisit('evenement_rechercher');
-        $evenements = Evenement::query();
-
-        if ($request->has('search') && !empty($request->search)) {
-            $evenements = $evenements->where('libelle', 'like', '%' . $request->search . '%');
-        }
-
-        $evenements = $evenements->paginate(10);
-        return view('evenements.rechercher', compact('evenements'));
     }
 
     public function show($id)
@@ -73,67 +72,46 @@ class EvenementController extends Controller
         return view('evenements.show', compact('evenement'));
     }
 
-    public function showAlbums()
+    public function edit($id)
     {
-        $this->logVisit('evenement_show_albums');
-        $evenements = Evenement::with('galeries')->orderBy('date')->get();
-        return view('albums.index', compact('evenements'));
-    }
-
-    public function futur()
-    {
-        $this->logVisit('evenement_futur');
-        $evenements = Evenement::whereDate('date', '>=', now())
-            ->orderBy('date', 'asc')
-            ->get();
-        return view('evenements.futur', compact('evenements'));
-    }
-
-    public function inscription($id)
-    {
-        $this->logVisit('evenement_inscription');
         $evenement = Evenement::findOrFail($id);
-        return redirect()->route('evenements.index')
-            ->with('success', "Inscription confirmée pour l'événement : {$evenement->titre}");
+        $evenement->date = Carbon::parse($evenement->date);
+        return view('evenements.edit', compact('evenement'));
     }
 
-     public function edit($id)
-  {
-    $evenement = Evenement::findOrFail($id);
+    public function update(Request $request, $id)
+    {
+        $validated = $request->validate([
+            'titre' => 'required|string|max:255',
+            'description' => 'required|string',
+            'date' => 'required|date',
+            'lieu' => 'required|string',
+            'type' => 'required|string',
+            'image' => 'nullable|image|max:2048',
+        ]);
 
-    // Convertir la date en objet Carbon
-    $evenement->date = Carbon::parse($evenement->date);
+        $evenement = Evenement::findOrFail($id);
 
-    return view('evenements.edit', compact('evenement'));
-  }
-public function update(Request $request, $id)
-{
-    $validated = $request->validate([
-        'titre' => 'required|string|max:255',
-        'description' => 'required|string',
-        'date' => 'required|date',
-        'lieu' => 'required|string',
-        'type' => 'required|string',
-        'image' => 'nullable|image|max:2048',
-    ]);
+        // Détection des conflits sauf pour l'événement en cours
+        $conflict = Evenement::where('date', $validated['date'])->where('id', '!=', $id)->exists();
+        if ($conflict) {
+            return redirect()->back()->with('error', 'Un événement existe déjà à cette date.');
+        }
 
-    $evenement = Evenement::findOrFail($id);
+        if ($request->hasFile('image')) {
+            $validated['image'] = $request->file('image')->store('images', 'public');
+        }
 
-    if ($request->hasFile('image')) {
-        $validated['image'] = $request->file('image')->store('images', 'public');
+        $evenement->update($validated);
+
+        return redirect()->route('evenements.index')->with('success', 'Événement mis à jour avec succès !');
     }
 
-    $evenement->update($validated);
+    public function destroy($id)
+    {
+        $evenement = Evenement::findOrFail($id);
+        $evenement->delete();
 
-    return redirect()->route('evenements.index')->with('success', 'Événement mis à jour avec succès !');
-}
-
-public function destroy($id)
-{
-    $evenement = Evenement::findOrFail($id);
-    $evenement->delete();
-
-    return redirect()->route('evenements.index')->with('success', 'Événement supprimé avec succès !');
-}
-
+        return redirect()->route('evenements.index')->with('success', 'Événement supprimé avec succès !');
+    }
 }

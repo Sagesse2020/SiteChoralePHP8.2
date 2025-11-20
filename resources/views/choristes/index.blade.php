@@ -74,7 +74,31 @@
             background-color: #e9ecef;
         }
 
-        /* Style de la pagination ou du bouton d'ajout, si nécessaire */
+        /* Boutons actions */
+        .action-buttons a, .action-buttons button {
+            margin-right: 5px;
+            padding: 5px 10px;
+            border: none;
+            border-radius: 5px;
+            text-decoration: none;
+            color: white;
+            cursor: pointer;
+        }
+
+        .action-buttons a {
+            background-color: #28a745;
+        }
+
+        .action-buttons button {
+            background-color: #dc3545;
+        }
+
+        .action-buttons button:hover,
+        .action-buttons a:hover {
+            opacity: 0.8;
+        }
+
+        /* Pagination */
         .pagination {
             display: flex;
             justify-content: center;
@@ -96,30 +120,44 @@
     </style>
 </head>
 <body>
+<div class="container">
     <h1>Liste des choristes</h1>
-      @if($choristes->isEmpty())
+
+    @if($choristes->isEmpty())
         <p>Aucun choriste disponible.</p>
     @else
-        <table border = "4px">
-             <thead>
+        <table border="4px">
+            <thead>
                 <tr>
                     <th>Id</th>
                     <th>Nom du choriste</th>
                     <th>Voix du choriste</th>
+                    @if(auth()->user()->niveau_admin === 3)
+                        <th>Actions</th>
+                    @endif
                 </tr>
             </thead>
             <tbody>
-                @foreach($choristes as $Choriste)
+                @foreach($choristes as $choriste)
                     <tr>
-                        <td>{{ $Choriste->id}}</td>
-                        <td>{{ $Choriste->nom}}</td>
-                        <td>{{ $Choriste->groupe->nom }}</td>
+                        <td>{{ $choriste->id }}</td>
+                        <td>{{ $choriste->nom }}</td>
+                        <td>{{ $choriste->groupe->nom ?? 'Non affecté' }}</td>
+                        @if(auth()->user()->niveau_admin === 3)
+                            <td class="action-buttons">
+                                <a href="{{ route('choristes.edit', $choriste->id) }}">Modifier</a>
+                                <form action="{{ route('choristes.destroy', $choriste->id) }}" method="POST" style="display:inline-block;">
+                                    @csrf
+                                    @method('DELETE')
+                                    <button type="submit" onclick="return confirm('Voulez-vous vraiment supprimer ce choriste ?')">Supprimer</button>
+                                </form>
+                            </td>
+                        @endif
                     </tr>
                 @endforeach
             </tbody>
         </table>
     @endif
 </div>
-
 </body>
 </html>

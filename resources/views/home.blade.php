@@ -123,7 +123,9 @@
             <a href="{{ route('publications.index') }}"><i class="fas fa-newspaper"></i>Publications</a>
             <a href="{{ route('evenements.index') }}"><i class="fas fa-calendar-alt"></i>Événements</a>
             <a href="{{ route('profil') }}"><i class="fas fa-user"></i>Profil</a>
+            <a href="{{ route('commentaires.index') }}"><i class="fas fa-comment-alt"></i>Commentaires</a>
             <a href="{{ route('logout') }}"><i class="fas fa-sign-out-alt"></i>Déconnexion</a>
+
         </nav>
     </header>
 

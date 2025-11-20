@@ -4,6 +4,19 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>{{ config('app.name') }} - Événements</title>
+    <title>{{ config('app.name') }} - Tous les événements</title>
+    <meta name="description" content="Découvrez tous les événements de notre chorale.">
+    <meta name="keywords" content="chorale, musique, événements">
+    <meta property="og:title" content="{{ config('app.name') }} - Événements">
+    <meta property="og:description" content="Tous les événements à venir et passés de notre chorale.">
+    <meta property="og:image" content="{{ asset('images/default-event.jpg') }}">
+    <meta property="og:url" content="{{ url()->current() }}">
+
+    <!-- CSS FullCalendar -->
+    <link href='https://cdn.jsdelivr.net/npm/fullcalendar@6.1.7/main.min.css' rel='stylesheet' />
+
+    <!-- JS FullCalendar -->
+    <script src='https://cdn.jsdelivr.net/npm/fullcalendar@6.1.7/main.min.js'></script>
 
     <style>
         body {
@@ -12,14 +25,12 @@
             background-color: #f8f9fa;
             color: #333;
         }
-
         h1 {
             text-align: center;
             font-size: 2.5rem;
             color: #0056b3;
             margin-top: 1.5rem;
         }
-
         .event-grid {
             display: grid;
             grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
@@ -28,7 +39,6 @@
             max-width: 1400px;
             margin: auto;
         }
-
         .event-card {
             width: 100%;
             border-radius: 14px;
@@ -39,12 +49,10 @@
             display: flex;
             flex-direction: column;
         }
-
         .event-card:hover {
             transform: translateY(-6px);
             box-shadow: 0 8px 30px rgba(0,0,0,0.12);
         }
-
         .event-card img {
             width: 100%;
             height: 180px;
@@ -52,29 +60,24 @@
             cursor: pointer;
             transition: transform 0.4s ease;
         }
-
         .event-card img:hover {
             transform: scale(1.07);
         }
-
         .event-info {
             padding: 1.5rem 1.5rem 2rem 1.5rem;
             display: flex;
             flex-direction: column;
         }
-
         .event-info h3 {
             margin: 0 0 0.5rem 0;
             font-size: 1.4rem;
             color: #0056b3;
         }
-
         .event-info p {
             color: #555;
             font-size: 1rem;
             margin-bottom: 1rem;
         }
-
         .badge {
             display: inline-block;
             padding: 0.25rem 0.7rem;
@@ -84,10 +87,9 @@
             color: white;
             margin-right: 0.3rem;
         }
-
         .badge.date { background-color: #28a745; }
 
-        /* Boutons uniformes */
+        /* Boutons */
         .btn {
             display: inline-flex;
             align-items: center;
@@ -107,14 +109,13 @@
             width: 100px;
             text-align: center;
         }
-
         .btn:hover {
             background-color: #005fa3;
             transform: translateY(-2px);
             box-shadow: 0 6px 12px rgba(0,0,0,0.15);
         }
 
-        /* Modal styles */
+        /* Modal image */
         .modal {
             display: none;
             position: fixed;
@@ -125,7 +126,6 @@
             background-color: rgba(0,0,0,0.85);
             overflow: auto;
         }
-
         .modal-content {
             margin: auto;
             display: block;
@@ -134,7 +134,6 @@
             border-radius: 10px;
             box-shadow: 0 0 25px rgba(0,0,0,0.4);
         }
-
         .modal-caption {
             margin: auto;
             display: block;
@@ -145,7 +144,6 @@
             padding: 10px 0;
             font-size: 1.1rem;
         }
-
         .modal-close {
             position: absolute;
             top: 20px;
@@ -156,7 +154,6 @@
             cursor: pointer;
             transition: color 0.3s;
         }
-
         .modal-close:hover {
             color: #bbb;
         }
@@ -166,12 +163,19 @@
             text-align:center;
             margin:2rem 0;
         }
+
+        /* Calendar */
+        #calendar {
+            max-width: 1100px;
+            margin: 2rem auto;
+        }
     </style>
 </head>
 <body>
 
 <h1>🎶 Nos Événements</h1>
 
+<!-- Grille des événements -->
 <div class="event-grid">
     @foreach($evenements as $event)
     <div class="event-card">
@@ -209,24 +213,55 @@
     <div class="modal-caption" id="caption"></div>
 </div>
 
-<script>
-    const modal = document.getElementById('imageModal');
-    const modalImg = document.getElementById('modalImg');
-    const captionText = document.getElementById('caption');
-    const closeBtn = document.getElementsByClassName('modal-close')[0];
+<!-- FullCalendar -->
+<div id="calendar"></div>
 
-    document.querySelectorAll('.event-image').forEach(img => {
-        img.addEventListener('click', () => {
-            modal.style.display = "block";
-            modalImg.src = img.getAttribute('data-src');
-            captionText.textContent = img.getAttribute('data-title');
-        });
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    var calendarEl = document.getElementById('calendar');
+
+    var calendar = new FullCalendar.Calendar(calendarEl, {
+        initialView: 'dayGridMonth',
+        events: @json($evenementsCalendar), // ✅ Utilise $evenementsCalendar depuis le controller
+        headerToolbar: {
+            left: 'prev,next today',
+            center: 'title',
+            right: 'dayGridMonth,timeGridWeek,timeGridDay'
+        },
+        navLinks: true,
+        editable: false,
+        selectable: true,
+        eventClick: function(info) {
+            if(info.event.url) {
+                window.location.href = info.event.url;
+                info.jsEvent.preventDefault();
+            }
+        }
     });
 
-    closeBtn.onclick = function() { modal.style.display = "none"; }
-    modal.onclick = function(event) { if(event.target === modal) modal.style.display = "none"; }
+    calendar.render();
+});
 </script>
 
+<script>
+const modal = document.getElementById('imageModal');
+const modalImg = document.getElementById('modalImg');
+const captionText = document.getElementById('caption');
+const closeBtn = document.getElementsByClassName('modal-close')[0];
+
+document.querySelectorAll('.event-image').forEach(img => {
+    img.addEventListener('click', () => {
+        modal.style.display = "block";
+        modalImg.src = img.getAttribute('data-src');
+        captionText.textContent = img.getAttribute('data-title');
+    });
+});
+
+closeBtn.onclick = function() { modal.style.display = "none"; }
+modal.onclick = function(event) { if(event.target === modal) modal.style.display = "none"; }
+</script>
+
+<!-- Pagination -->
 <div class="pagination">
     {{ $evenements->links() }}
 </div>
