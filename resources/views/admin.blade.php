@@ -88,14 +88,12 @@
     </section>
 
     <footer>
-        <p>Suivez-nous sur les réseaux :</p>
         <div class="social-icons">
             <a href="#"><i class="fab fa-facebook"></i></a>
             <a href="#"><i class="fab fa-tiktok"></i></a>
             <a href="#"><i class="fab fa-whatsapp"></i></a>
             <a href="#"><i class="fab fa-youtube"></i></a>
         </div>
-        <p>Elysée Sagesse LOUFOUTOU GPA.</p>
         <p>&copy; 2025 Chorale Foi Parfaite. Tous droits réservés.</p>
     </footer>
 </body>

@@ -223,6 +223,7 @@
        Footer
   ========================= -->
   <footer>
+    <p>Suivez-nous sur nos réseaux</p>
     <div class="social-icons">
       <a href="https://www.facebook.com/share/16riUmXBqu/"><i class="fab fa-facebook"></i></a>
       <a href="https://www.tiktok.com/@choralefoiparfait"><i class="fab fa-tiktok"></i></a>

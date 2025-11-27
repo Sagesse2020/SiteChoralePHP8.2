@@ -130,9 +130,6 @@
 
     <!-- Vérification sécurité admin niveau 3 -->
     @if(auth()->user()->role === 'admin' && auth()->user()->niveau_admin == 3)
-
-        <a href="{{ route('choristes.index') }}" class="btn-retour">← Retour</a>
-
         <form action="{{ route('choristes.update', $choristes->id) }}" method="POST">
             @csrf
             @method('PUT')

@@ -23,11 +23,11 @@
 
         /* --- HEADER --- */
         header {
-            background: linear-gradient(135deg, #4a148c, #7b1fa2);
+            background: linear-gradient(135deg, #1feaf1, #19a6e7);
             color: white;
             padding: 40px 20px;
             text-align: center;
-            border-bottom: 5px solid #9c27b0;
+            border-bottom: 5px solid #0dd5e4;
         }
 
         header h1 {
@@ -57,10 +57,10 @@
         blockquote {
             position: relative;
             background-color: #f3e5f5;
-            border-left: 5px solid #7b1fa2;
+            border-left: 5px solid #0dd5e4;
             margin: 25px 0;
             padding: 20px 25px;
-            color: #4a148c;
+            color:#0dd5e4;
             font-style: italic;
             font-size: 1.2em;
             border-radius: 6px;
@@ -72,7 +72,7 @@
             top: -10px;
             left: 10px;
             font-size: 2.5em;
-            color: #9c27b0;
+            color: #0dd5e4;
             opacity: 0.3;
         }
 
@@ -82,7 +82,7 @@
             bottom: -15px;
             right: 20px;
             font-size: 2.5em;
-            color: #9c27b0;
+            color: #0dd5e4
             opacity: 0.3;
         }
 
@@ -90,7 +90,7 @@
         footer {
             text-align: center;
             padding: 25px;
-            background-color: #6a1b9a;
+            background-color: #0dd5e4;
             color: white;
             margin-top: 50px;
             font-size: 0.95em;

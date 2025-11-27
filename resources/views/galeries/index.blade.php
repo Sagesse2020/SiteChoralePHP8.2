@@ -94,7 +94,7 @@
     <h1>Toutes les galeries</h1>
 
     @if($galeries->isEmpty())
-        <p class="empty-message">Aucune galerie disponible.</p>
+        <p class="empty-message">Aucune image disponible au niveau des galeries.</p>
     @else
         <div class="gallery-grid">
 
