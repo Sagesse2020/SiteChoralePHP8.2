@@ -35,17 +35,20 @@ class PublicationController extends Controller
             'date_publication' => 'required|date'
         ]);
 
-        $imagePath = $request->hasFile('image')
-            ? $request->file('image')->store('publications', 'public')
-            : 'default.png';
+      $imagePath = null;
 
-        Publication::create([
-            'titre' => $request->titre,
-            'contenu' => $request->contenu,
-            'image' => $imagePath,
-            'date_publication' => $request->date_publication,
-            'user_id' => auth()->id()
-        ]);
+if ($request->hasFile('image')) {
+    $imagePath = $request->file('image')->store('publications', 'public');
+}
+
+Publication::create([
+    'titre' => $request->titre,
+    'contenu' => $request->contenu,
+    'image' => $imagePath,  // <-- propre
+    'date_publication' => $request->date_publication,
+    'user_id' => auth()->id()
+]);
+
 
         return redirect()->route('publications.index')->with('success', 'Publication ajoutée avec succès !');
     }
