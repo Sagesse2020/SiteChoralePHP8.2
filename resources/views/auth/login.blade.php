@@ -1,11 +1,26 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="fr">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{{ config('app.name', 'Connexion') }}</title>
+
+    <!-- Google Font -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+    <!-- FontAwesome -->
+    <link rel="stylesheet" href="{{ asset('fontawesome/css/all.min.css') }}">
+
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800;900&display=swap');
+        :root {
+            --primary: #0ef;
+            --bg: #1f293a;
+            --card: rgba(0,0,0,0.55);
+            --border: #2c4766;
+            --text: #ffffff;
+            --muted: #cccccc;
+            --danger: #ff4d4d;
+        }
 
         * {
             margin: 0;
@@ -15,205 +30,231 @@
         }
 
         body {
-            display: flex;
-            justify-content: center;
-            align-items: center;
             min-height: 100vh;
-            background: #1f293a;
-        }
-
-        .container {
-            position: relative;
-            width: 256px;
-            height: 256px;
             display: flex;
             justify-content: center;
             align-items: center;
+            background: linear-gradient(135deg, #1f293a, #111827);
+            padding: 20px;
         }
 
-        .container span {
-            position: absolute;
-            left: 0;
-            width: 32px;
-            height: 6px;
-            background: #2c4766;
-            border-radius: 8px;
-            transform-origin: 128px;
-            transform: scale(2.2) rotate(calc(var(--i) * (360deg / 50)));
-            animation: blink 3s linear infinite;
-            animation-delay: calc(var(--i) * (3s / 50));
-        }
-
-        @keyframes blink {
-            0% { background: #0ef; }
-            25% { background: #2c4766; }
-        }
-
-        .login-box {
-            position: absolute;
-            width: 400px;
-            padding: 40px;
-            background: rgba(0,0,0,0.5);
-            border-radius: 8px;
+        .login-container {
+            width: 100%;
+            max-width: 420px;
+            background: var(--card);
+            padding: 40px 30px;
+            border-radius: 12px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.4);
         }
 
         h2 {
-            font-size: 2em;
-            color: #0ef;
             text-align: center;
-            margin-bottom: 20px;
+            color: var(--primary);
+            margin-bottom: 30px;
         }
 
-        .input-box {
+        .form-group {
+            margin-bottom: 22px;
             position: relative;
-            margin: 25px 0;
         }
 
-        input[type="email"],
-        input[type="password"] {
+        .form-group input {
             width: 100%;
-            height: 50px;
+            height: 48px;
+            border-radius: 30px;
+            border: 2px solid var(--border);
             background: rgba(255,255,255,0.05);
-            border: 2px solid #2c4766;
+            padding: 0 18px;
+            font-size: 0.95rem;
+            color: var(--text);
             outline: none;
-            border-radius: 40px;
-            font-size: 1em;
-            color: #fff;
-            padding: 0 20px;
-            transition: .5s ease;
+            transition: 0.3s;
         }
 
-        input:focus {
-            border-color: #0ef;
+        .form-group input:focus {
+            border-color: var(--primary);
             background: rgba(255,255,255,0.1);
         }
 
-        label {
+        .form-group label {
             position: absolute;
             top: 50%;
-            left: 20px;
+            left: 18px;
             transform: translateY(-50%);
-            font-size: 1em;
-            color: #ccc;
+            font-size: 0.9rem;
+            color: var(--muted);
             pointer-events: none;
-            transition: .5s ease;
+            transition: 0.3s;
+            background: transparent;
         }
 
-        input:focus ~ label,
-        input:valid ~ label {
-            top: 1px;
-            font-size: .8em;
-            background: #1f293a;
+        .form-group input:focus ~ label,
+        .form-group input:valid ~ label {
+            top: -8px;
+            font-size: 0.75rem;
             padding: 0 6px;
-            color: #0ef;
+            background: var(--bg);
+            color: var(--primary);
         }
 
-        .remember-me {
+        /* Password eye */
+        .password-wrapper {
+            position: relative;
+        }
+
+        .password-wrapper input {
+            padding-right: 45px;
+        }
+
+        .toggle-password {
+            position: absolute;
+            right: 16px;
+            top: 50%;
+            transform: translateY(-50%);
+            cursor: pointer;
+            color: var(--muted);
+            font-size: 1rem;
+        }
+
+        .toggle-password:hover {
+            color: var(--primary);
+        }
+
+        .remember {
             display: flex;
             align-items: center;
-            margin: 10px 0;
-            color: #fff;
-            font-size: 0.9em;
+            gap: 8px;
+            font-size: 0.85rem;
+            color: var(--text);
+            margin-bottom: 10px;
         }
 
-        .remember-me input {
-            width: auto;
-            margin-right: 10px;
+        .forgot {
+            text-align: right;
+            margin-bottom: 20px;
         }
 
-        .forgot-pass {
-            text-align: center;
-            margin: -10px 0 10px;
-        }
-
-        .forgot-pass a {
-            font-size: .85em;
-            color: #fff;
+        .forgot a {
+            font-size: 0.85rem;
+            color: var(--text);
             text-decoration: none;
+        }
+
+        .forgot a:hover {
+            color: var(--primary);
         }
 
         .btn {
             width: 100%;
-            height: 45px;
-            background: #0ef;
+            height: 46px;
+            border-radius: 30px;
             border: none;
-            outline: none;
-            border-radius: 40px;
-            cursor: pointer;
-            font-size: 1em;
-            color: #1f313a;
+            background: var(--primary);
+            color: #001a1a;
             font-weight: 600;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: 0.3s;
         }
 
-        .signup-link {
+        .btn:hover {
+            background: #00cfd0;
+        }
+
+        .signup {
+            margin-top: 20px;
             text-align: center;
-            margin: 20px 0 10px;
+            font-size: 0.9rem;
+            color: var(--text);
         }
 
-        .signup-link a {
-            font-size: 1em;
-            color: #0ef;
+        .signup a {
+            color: var(--primary);
             text-decoration: none;
             font-weight: 600;
         }
 
         .error {
-            color: #ff0000;
-            font-size: 0.9rem;
-            margin-bottom: 1rem;
-            text-align: center;
+            background: rgba(255,77,77,0.1);
+            border: 1px solid var(--danger);
+            color: var(--danger);
+            padding: 10px;
+            border-radius: 8px;
+            font-size: 0.85rem;
+            margin-bottom: 15px;
+        }
+
+        @media (max-width: 480px) {
+            .login-container {
+                padding: 30px 20px;
+            }
         }
     </style>
 </head>
+
 <body>
-    <!-- Effet décoratif -->
-    <div class="container">
-        @for ($i = 1; $i <= 50; $i++)
-            <span style="--i:{{ $i }}"></span>
-        @endfor
-    </div>
 
-    <!-- Formulaire de connexion -->
-    <div class="login-box">
-        <h2>Connexion</h2>
-        <form action="{{ route('login') }}" method="POST">
-            @csrf
-            @if ($errors->any())
-                <div class="error">
-                    <ul>
-                        @foreach ($errors->all() as $error)
-                            <li>{{ $error }}</li>
-                        @endforeach
-                    </ul>
-                </div>
-            @endif
+<div class="login-container">
+    <h2>Connexion</h2>
 
-            <div class="input-box">
-                <input type="email" id="email" name="email" value="{{ old('email') }}" required>
-                <label for="email">Email</label>
+    <form method="POST" action="{{ route('login') }}">
+        @csrf
+
+        @if ($errors->any())
+            <div class="error">
+                @foreach ($errors->all() as $error)
+                    <div>{{ $error }}</div>
+                @endforeach
             </div>
+        @endif
 
-            <div class="input-box">
-                <input type="password" id="password" name="password" required>
-                <label for="password">Mot de passe</label>
-            </div>
+        <!-- Email -->
+        <div class="form-group">
+            <input type="email" name="email" value="{{ old('email') }}" required>
+            <label>Email</label>
+        </div>
 
-            <!-- Remember Me -->
-            <div class="remember-me">
-                <input type="checkbox" name="remember" id="remember" {{ old('remember') ? 'checked' : '' }}>
-                <label for="remember">Se souvenir de moi</label>
-            </div>
+        <!-- Password -->
+        <div class="form-group password-wrapper">
+            <input type="password" name="password" id="password" required>
+            <label>Mot de passe</label>
+            <i class="fas fa-eye toggle-password" onclick="togglePassword()"></i>
+        </div>
 
-            <div class="forgot-pass">
-                <a href="{{ route('password.request') }}">Mot de passe oublié ?</a>
-            </div>
+        <!-- Remember -->
+        <div class="remember">
+            <input type="checkbox" name="remember" {{ old('remember') ? 'checked' : '' }}>
+            <span>Se souvenir de moi</span>
+        </div>
 
-            <button type="submit" class="btn">Se connecter</button>
+        <!-- Forgot -->
+        <div class="forgot">
+            <a href="{{ route('password.request') }}">Mot de passe oublié ?</a>
+        </div>
 
-            <div class="signup-link">
-                <p>Pas encore de compte ? <a href="{{ route('register') }}">Créer un compte</a></p>
-            </div>
-        </form>
-    </div>
+        <button type="submit" class="btn">Se connecter</button>
+
+        <div class="signup">
+            Pas encore de compte ?
+            <a href="{{ route('register') }}">Créer un compte</a>
+        </div>
+    </form>
+</div>
+
+<script>
+    function togglePassword() {
+        const input = document.getElementById('password');
+        const icon = document.querySelector('.toggle-password');
+
+        if (input.type === 'password') {
+            input.type = 'text';
+            icon.classList.replace('fa-eye', 'fa-eye-slash');
+        } else {
+            input.type = 'password';
+            icon.classList.replace('fa-eye-slash', 'fa-eye');
+        }
+    }
+</script>
+
 </body>
 </html>

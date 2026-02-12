@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use App\Models\Evenement; 
 
 class Galerie extends Model
 {
@@ -13,7 +14,7 @@ class Galerie extends Model
        protected $fillable = ['titre','evenement_id']; // protège la colonne titre et plus  si tu as d'autres colonnes, ajoute-les ici
         public function evenement()
     {
-        return $this->belongsTo(evenement::class, 'evenement_id');
+        return $this->belongsTo(Evenement::class, 'evenement_id');
               // Passez les données à la vue
     }
 
