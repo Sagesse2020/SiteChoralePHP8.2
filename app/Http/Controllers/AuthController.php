@@ -115,7 +115,7 @@ class AuthController extends Controller
     // ==============================
     public function createUser()
     {
-        return view('users');
+        return view('users.create');
     }
 
     public function store(Request $request)

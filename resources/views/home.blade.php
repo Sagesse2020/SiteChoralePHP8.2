@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Chorale Foi Parfaite - Accueil</title>
+<title>Accueil - Chorale Foi Parfaite</title>
 
 <link rel="stylesheet" href="{{ asset('fontawesome/css/all.min.css') }}">
 
@@ -22,19 +22,17 @@ body{
     background:linear-gradient(135deg,#f0f8ff,#d9e8ff);
 }
 
-/* NAVBAR */
 header{
-    background:#0044cc;
+    background:#003366;
     padding:15px 25px;
     display:flex;
-    align-items:center;
     justify-content:space-between;
+    align-items:center;
     flex-wrap:wrap;
 }
 
 .logo{
-    width:160px;
-    object-fit:contain;
+    width:150px;
 }
 
 .menu-toggle{
@@ -46,67 +44,80 @@ header{
 
 .nav-links{
     display:flex;
+    gap:15px;
     flex-wrap:wrap;
-    gap:12px;
 }
 
-.nav-links a{
+.nav-links a, 
+.nav-links button{
     color:white;
     text-decoration:none;
     font-size:14px;
-    padding:6px 8px;
+    background:none;
+    border:none;
+    cursor:pointer;
 }
 
-.nav-links a:hover{
+.nav-links a:hover,
+.nav-links button:hover{
     color:#00ffd6;
 }
 
-/* CONTENT */
 main{
-    flex-grow:1;
+    flex:1;
     text-align:center;
     padding:60px 20px;
 }
 
 main h1{
     font-size:clamp(28px,5vw,48px);
-    color:#0044cc;
-    margin-bottom:15px;
+    color:#003366;
 }
 
 main p{
-    font-size:clamp(16px,3vw,20px);
+    margin-top:15px;
+    font-size:18px;
     max-width:600px;
-    margin:auto;
+    margin-inline:auto;
 }
 
-main img{
-    margin-top:25px;
-    width:100%;
-    max-width:500px;
+.cards{
+    margin-top:40px;
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(250px,1fr));
+    gap:20px;
 }
 
-/* FOOTER */
+.card{
+    background:white;
+    padding:25px;
+    border-radius:10px;
+    box-shadow:0 5px 15px rgba(0,0,0,0.1);
+}
+
+.card i{
+    font-size:30px;
+    color:#003366;
+    margin-bottom:10px;
+}
+
 footer{
     background:#001f33;
     color:#ccc;
     text-align:center;
-    padding:20px;
+    padding:15px;
 }
 
-/* RESPONSIVE */
 @media(max-width:850px){
     .menu-toggle{
         display:block;
     }
-
     .nav-links{
         display:none;
-        width:100%;
         flex-direction:column;
+        width:100%;
         margin-top:15px;
     }
-
     .nav-links.active{
         display:flex;
     }
@@ -122,19 +133,52 @@ footer{
     <i class="fas fa-bars menu-toggle" onclick="toggleMenu()"></i>
 
     <nav class="nav-links" id="menu">
-        <a href="{{ route('publicites.index') }}"><i class="fas fa-bullhorn"></i> Publicités</a>
-        <a href="{{ route('publications.index') }}"><i class="fas fa-newspaper"></i> Publications</a>
-        <a href="{{ route('evenements.index') }}"><i class="fas fa-calendar-alt"></i> Événements</a>
-        <a href="{{ route('profil') }}"><i class="fas fa-user"></i> Profil</a>
-        <a href="{{ route('commentaires.index') }}"><i class="fas fa-comment-alt"></i> Commentaires</a>
-        <a href="{{ route('logout') }}"><i class="fas fa-sign-out-alt"></i> Déconnexion</a>
+
+        @auth
+            <a href="{{ route('publicites.index') }}"><i class="fas fa-bullhorn"></i> Publicités</a>
+            <a href="{{ route('publications.index') }}"><i class="fas fa-newspaper"></i> Publications</a>
+            <a href="{{ route('evenements.index') }}"><i class="fas fa-calendar-alt"></i> Événements</a>
+            <a href="{{ route('profil') }}"><i class="fas fa-user"></i> Profil</a>
+
+            <form action="{{ route('logout') }}" method="POST">
+                @csrf
+                <button type="submit">
+                    <i class="fas fa-sign-out-alt"></i> Déconnexion
+                </button>
+            </form>
+        @endauth
+
+        @guest
+            <a href="{{ route('login') }}"><i class="fas fa-sign-in-alt"></i> Connexion</a>
+            <a href="{{ route('register') }}"><i class="fas fa-user-plus"></i> Inscription</a>
+        @endguest
+
     </nav>
 </header>
 
 <main>
-    <h1>Bienvenue à la Chorale Foi Parfaite</h1>
-    <p>Louons ensemble, chantons pour le Seigneur, dans l'harmonie et la foi.</p>
-    <img src="{{ asset('users.jpeg') }}">
+    <h1>Bienvenue {{ auth()->check() ? auth()->user()->name : 'à la Chorale Foi Parfaite' }}</h1>
+
+    <p>
+        Louons ensemble et chantons pour le Seigneur dans l'harmonie et la foi.
+    </p>
+
+    @auth
+    <div class="cards">
+        <div class="card">
+            <i class="fas fa-bullhorn"></i>
+            <h3>Voir Publicités</h3>
+        </div>
+        <div class="card">
+            <i class="fas fa-newspaper"></i>
+            <h3>Voir les événements</h3>
+        </div>
+        <div class="card">
+            <i class="fas fa-calendar-alt"></i>
+            <h3>Voir les événements</h3>
+        </div>
+    </div>
+    @endauth
 </main>
 
 <footer>

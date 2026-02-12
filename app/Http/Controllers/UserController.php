@@ -150,7 +150,7 @@ class UserController extends Controller
     public function createUser()
     {
         $this->logVisit('user_create_form');
-        return view('users');
+        return view('users.create');
     }
 
     // ==============================
