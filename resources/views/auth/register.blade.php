@@ -218,16 +218,21 @@
     </form>
 </div>
 
-<script>
-    function togglePassword(fieldId, icon) {
-        const input = document.getElementById(fieldId);
+<<script>
+    function togglePassword() {
+        const input = document.getElementById('password');
+        const icon = document.querySelector('.toggle-password');
 
         if (input.type === 'password') {
+            // Afficher le mot de passe
             input.type = 'text';
-            icon.classList.replace('fa-eye', 'fa-eye-slash');
+            icon.classList.remove('fa-eye');
+            icon.classList.add('fa-eye-slash');
         } else {
+            // Masquer le mot de passe
             input.type = 'password';
-            icon.classList.replace('fa-eye-slash', 'fa-eye');
+            icon.classList.remove('fa-eye-slash');
+            icon.classList.add('fa-eye');
         }
     }
 </script>

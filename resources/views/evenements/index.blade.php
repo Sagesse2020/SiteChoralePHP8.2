@@ -4,7 +4,6 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>{{ config('app.name') }} - Événements</title>
-    <title>{{ config('app.name') }} - Tous les événements</title>
     <meta name="description" content="Découvrez tous les événements de notre chorale.">
     <meta name="keywords" content="chorale, musique, événements">
     <meta property="og:title" content="{{ config('app.name') }} - Événements">
@@ -60,9 +59,7 @@
             cursor: pointer;
             transition: transform 0.4s ease;
         }
-        .event-card img:hover {
-            transform: scale(1.07);
-        }
+        .event-card img:hover { transform: scale(1.07); }
         .event-info {
             padding: 1.5rem 1.5rem 2rem 1.5rem;
             display: flex;
@@ -154,20 +151,17 @@
             cursor: pointer;
             transition: color 0.3s;
         }
-        .modal-close:hover {
-            color: #bbb;
-        }
+        .modal-close:hover { color: #bbb; }
 
         /* Pagination */
-        .pagination {
-            text-align:center;
-            margin:2rem 0;
-        }
+        .pagination { text-align:center; margin:2rem 0; }
 
         /* Calendar */
-        #calendar {
-            max-width: 1100px;
-            margin: 2rem auto;
+        #calendar { max-width: 1100px; margin: 2rem auto; }
+
+        @media(max-width:600px){
+            .event-grid { grid-template-columns: 1fr; padding: 1rem; }
+            .btn { width: 100%; }
         }
     </style>
 </head>
@@ -192,14 +186,17 @@
             <span class="badge">{{ $event->type }}</span>
             <span class="badge date">{{ \Carbon\Carbon::parse($event->date)->format('d/m/Y') }}</span>
 
-            <div style="margin-top: 1rem; display:flex; gap:5px;">
+            <div style="margin-top: 1rem; display:flex; gap:5px; flex-wrap: wrap;">
                 <a href="{{ route('evenements.show', $event->id) }}" class="btn">Voir</a>
-                <a href="{{ route('evenements.edit', $event->id) }}" class="btn">Modifier</a>
-                <form action="{{ route('evenements.destroy', $event->id) }}" method="POST" style="display:inline;">
-                    @csrf
-                    @method('DELETE')
-                    <button type="submit" class="btn" onclick="return confirm('Voulez-vous vraiment supprimer cet événement ?')">Supprimer</button>
-                </form>
+
+                @if(Auth::check() && Auth::user()->role === 'admin' && Auth::user()->niveau_admin == 3)
+                    <a href="{{ route('evenements.edit', $event->id) }}" class="btn">Modifier</a>
+                    <form action="{{ route('evenements.destroy', $event->id) }}" method="POST" style="display:inline;">
+                        @csrf
+                        @method('DELETE')
+                        <button type="submit" class="btn" onclick="return confirm('Voulez-vous vraiment supprimer cet événement ?')">Supprimer</button>
+                    </form>
+                @endif
             </div>
         </div>
     </div>
@@ -218,11 +215,11 @@
 
 <script>
 document.addEventListener('DOMContentLoaded', function() {
+    // FullCalendar
     var calendarEl = document.getElementById('calendar');
-
     var calendar = new FullCalendar.Calendar(calendarEl, {
         initialView: 'dayGridMonth',
-        events: @json($evenementsCalendar), // ✅ Utilise $evenementsCalendar depuis le controller
+        events: @json($evenementsCalendar),
         headerToolbar: {
             left: 'prev,next today',
             center: 'title',
@@ -238,27 +235,25 @@ document.addEventListener('DOMContentLoaded', function() {
             }
         }
     });
-
     calendar.render();
-});
-</script>
 
-<script>
-const modal = document.getElementById('imageModal');
-const modalImg = document.getElementById('modalImg');
-const captionText = document.getElementById('caption');
-const closeBtn = document.getElementsByClassName('modal-close')[0];
+    // Modal images
+    const modal = document.getElementById('imageModal');
+    const modalImg = document.getElementById('modalImg');
+    const captionText = document.getElementById('caption');
+    const closeBtn = document.getElementsByClassName('modal-close')[0];
 
-document.querySelectorAll('.event-image').forEach(img => {
-    img.addEventListener('click', () => {
-        modal.style.display = "block";
-        modalImg.src = img.getAttribute('data-src');
-        captionText.textContent = img.getAttribute('data-title');
+    document.querySelectorAll('.event-image').forEach(img => {
+        img.addEventListener('click', () => {
+            modal.style.display = "block";
+            modalImg.src = img.getAttribute('data-src');
+            captionText.textContent = img.getAttribute('data-title');
+        });
     });
-});
 
-closeBtn.onclick = function() { modal.style.display = "none"; }
-modal.onclick = function(event) { if(event.target === modal) modal.style.display = "none"; }
+    closeBtn.onclick = function() { modal.style.display = "none"; }
+    modal.onclick = function(event) { if(event.target === modal) modal.style.display = "none"; }
+});
 </script>
 
 <!-- Pagination -->

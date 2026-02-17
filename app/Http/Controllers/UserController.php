@@ -73,30 +73,30 @@ class UserController extends Controller
         return redirect()->route('profil')->with('status', 'Profil édité avec succès');
     }
 
-    public function updatePhoto(Request $request)
-    {
-        $this->logVisit('user_update_photo');
+   public function updatePhoto(Request $request)
+{
+    $request->validate([
+        'photo' => 'required|image|mimes:jpg,jpeg,png|max:2048'
+    ]);
 
-        $request->validate([
-            'photo' => 'required|image|mimes:jpg,jpeg,png|max:2048'
-        ]);
+    $user = Auth::user();
 
-        /** @var \App\Models\User $user */
-        $user = Auth::user();
-
-        if ($user->photo && Storage::disk('public')->exists($user->photo)) {
-            Storage::disk('public')->delete($user->photo);
-        }
-
-        $path = $request->file('photo')->store('avatars', 'public');
-        $user->photo = $path;
-        $user->save();
-
-        return response()->json([
-            'success' => true,
-            'photo_url' => asset('storage/'.$user->photo)
-        ]);
+    // Supprimer ancienne photo si elle existe
+    if ($user->photo && Storage::disk('public')->exists($user->photo)) {
+        Storage::disk('public')->delete($user->photo);
     }
+
+    // Stocker dans storage/app/public/avatars
+    $path = $request->file('photo')->store('avatars', 'public');
+
+    $user->photo = $path;
+    $user->save();
+
+    return response()->json([
+        'success' => true,
+        'photo_url' => asset('storage/'.$user->photo)
+    ]);
+}
 
     // ==============================
     // MISE À JOUR DU PROFIL

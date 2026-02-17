@@ -15,6 +15,10 @@
             padding: 0;
         }
 
+         a {
+            color: #f6f8fd;
+        }
+
         main {
             max-width: 950px;
             margin: 50px auto;

@@ -129,12 +129,6 @@
 
         <div class="btn-container">
             <button type="submit">Mettre à jour</button>
-
-            <form action="{{ route('publications.destroy', $publication) }}" method="POST" onsubmit="return confirm('Supprimer cette publication ?')">
-                @csrf
-                @method('DELETE')
-                <button type="submit" class="btn-delete">Supprimer</button>
-            </form>
         </div>
     </form>
 </div>

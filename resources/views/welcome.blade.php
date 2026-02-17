@@ -243,8 +243,8 @@
   <footer>
     <p>Suivez-nous sur nos réseaux</p>
     <div class="social-icons">
-      <a href="https://www.facebook.com/share/16riUmXBqu/"><i class="fab fa-facebook"></i></a>
-      <a href="https://www.tiktok.com/@choralefoiparfait"><i class="fab fa-tiktok"></i></a>
+      <a href="https://www.facebook.com/share/16riUmXBqu/" target="_blank"><i class="fab fa-facebook"></i></a>
+      <a href="https://www.tiktok.com/@choralefoiparfait" target="_blank"><i class="fab fa-tiktok"></i></a>
       <a href="https://youtube.com/@choralefoiparfaite?si=og8TeBjZG2nDLH6o" target="_blank"><i class="fab fa-youtube"></i></a>
     </div>
     <p> &copy; {{ date('Y') }} Chorale Foi Parfaite. Tous droits réservés. </p>
