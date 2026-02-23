@@ -160,6 +160,7 @@
                 <li>Publications et publicités de la chorale.</li>
                 <li>Tableau de bord statistique pour administrateurs.</li>
                 <li>Mises à jour prévues : abonnements, paiements et factures.</li>
+                <li>Page d'aide et guide d'utilisation pour une meilleur experience.</li>
             </ul>
         </section>
 

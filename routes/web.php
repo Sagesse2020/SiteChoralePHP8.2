@@ -30,6 +30,7 @@ Route::view('/evenements', 'evenements')->name('evenements');
 Route::view('/admin', 'admin')->name('admin');
 Route::view('/home', 'home')->name('home');
 Route::view('/info', 'infos')->name('infos');
+Route::view('/aide', 'aide')->name('aide');
 Route::get('/', [WelcomeController::class, 'index'])->name('welcome');
 
 // ------------------------

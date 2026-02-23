@@ -201,6 +201,7 @@
       .hero p { font-size: 14px; }
       nav ul li a { font-size: 14px; }
     }
+
   </style>
 </head>
 <body>
@@ -227,6 +228,7 @@
           <li><a href="{{ route('historique') }}"><i class="fas fa-history"></i> Historique</a></li>
           <li><a href="{{ route('vision') }}"><i class="fas fa-eye"></i> Vision</a></li>
           <li><a href="{{ route('infos') }}"><i class="fas fa-info-circle"></i> Infos</a></li>
+          <li><a href="{{ route('aide') }}" class="help-float"><i class="fas fa-question"></i> Aide</a></li>
         </ul>
       </li>
     </ul>

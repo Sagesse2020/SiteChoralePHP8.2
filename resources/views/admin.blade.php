@@ -271,7 +271,6 @@ footer{
             Bienvenue membre
         @endif
     </h1>
-
     <p>
         @if(auth()->user()->niveau_admin == 3)
             Contrôle total de la plateforme.
@@ -281,29 +280,38 @@ footer{
             Accès aux informations.
         @endif
     </p>
-
+     <p class="info-text">
+     Les cartes ci-dessous présentent les modules disponibles.
+     Utilisez le menu d’administration pour gérer chaque fonctionnalité.
+    </p>
     @auth
     <div class="cards">
-        <div class="card">
-            <i class="fas fa-bullhorn"></i>
-            <h3>Gestion Publicités</h3>
-        </div>
-        <div class="card">
-            <i class="fas fa-newspaper"></i>
-            <h3>Gestion Publications</h3>
-        </div>
-        <div class="card">
-            <i class="fas fa-calendar-alt"></i>
-            <h3>Gestion Événements</h3>
-        </div>
+<div class="card">
+<span class="badge">Présentation</span>
+<i class="fas fa-bullhorn"></i>
+<h3>Gestion Publicités</h3>
+</div>
 
-        @if(auth()->user()->niveau_admin == 3)
-        <div class="card">
-            <i class="fas fa-users"></i>
-            <h3>Gestion Utilisateurs</h3>
-        </div>
-        @endif
-    </div>
+<div class="card">
+<span class="badge">Présentation</span>
+<i class="fas fa-newspaper"></i>
+<h3>Gestion Publications</h3>
+</div>
+
+<div class="card">
+<span class="badge">Présentation</span>
+<i class="fas fa-calendar-alt"></i>
+<h3>Gestion Événements</h3>
+</div>
+
+@if(auth()->user()->niveau_admin==3)
+<div class="card">
+<span class="badge">Présentation</span>
+<i class="fas fa-users"></i>
+<h3>Gestion Utilisateurs</h3>
+</div>
+@endif
+</div>
     @endauth
 </main>
 <footer>
